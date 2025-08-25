@@ -21,6 +21,7 @@ import {
 import { showQuickApiKeyGuide } from './utils/api-key-guide';
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import { getTempFilePath } from './utils/temp-paths';
 
 // Read version from package.json
 let version = '0.1.0'; // fallback
@@ -165,14 +166,14 @@ program
     try {
       // Add debugging
       const fs = require('fs');
-      fs.writeFileSync('/tmp/ultra-mcp-cli-start.log', `Starting server at ${new Date().toISOString()}\n`);
+      fs.writeFileSync(getTempFilePath('ultra-mcp-cli-start.log'), `Starting server at ${new Date().toISOString()}\n`);
       await startServer();
-      fs.appendFileSync('/tmp/ultra-mcp-cli-start.log', `Server started successfully at ${new Date().toISOString()}\n`);
+      fs.appendFileSync(getTempFilePath('ultra-mcp-cli-start.log'), `Server started successfully at ${new Date().toISOString()}\n`);
     } catch (error) {
       const fs = require('fs');
       const errorMessage = error instanceof Error ? error.message : String(error);
       const errorStack = error instanceof Error ? error.stack : '';
-      fs.appendFileSync('/tmp/ultra-mcp-cli-start.log', `Server error: ${errorMessage}\n${errorStack}\n`);
+      fs.appendFileSync(getTempFilePath('ultra-mcp-cli-start.log'), `Server error: ${errorMessage}\n${errorStack}\n`);
       console.error('Server error:', error);
       process.exit(1);
     }

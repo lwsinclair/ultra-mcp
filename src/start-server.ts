@@ -1,5 +1,6 @@
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { createServer } from "./server";
+import { getTempFilePath } from "./utils/temp-paths";
 
 export async function startServer(): Promise<void> {
   try {
@@ -17,7 +18,7 @@ export async function startServer(): Promise<void> {
     const fs = require('fs');
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorStack = error instanceof Error ? error.stack : '';
-    fs.writeFileSync('/tmp/ultra-mcp-error.log', `Error: ${errorMessage}\n${errorStack}`);
+    fs.writeFileSync(getTempFilePath('ultra-mcp-error.log'), `Error: ${errorMessage}\n${errorStack}`);
     process.exit(1);
   }
 }
