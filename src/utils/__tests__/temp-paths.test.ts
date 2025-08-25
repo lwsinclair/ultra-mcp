@@ -41,32 +41,19 @@ describe('temp-paths', () => {
       });
     });
 
-    it('should never return hardcoded /tmp paths on Windows', () => {
-      // Mock Windows platform temporarily
-      const originalPlatform = Object.getOwnPropertyDescriptor(process, 'platform');
+    it('should use os.tmpdir() instead of hardcoded paths', () => {
+      // Test that our function always uses os.tmpdir()
+      const tempPath = getTempFilePath('test.log');
+      const expectedPath = join(tmpdir(), 'test.log');
       
-      Object.defineProperty(process, 'platform', {
-        value: 'win32',
-        configurable: true
-      });
-
-      try {
-        const tempPath = getTempFilePath('test.log');
-        
-        // On Windows, should never start with /tmp/
-        expect(tempPath).not.toMatch(/^\/tmp\//);
-        // Should contain Windows-like path patterns
-        if (process.platform === 'win32') {
-          // Could be actual Windows temp dir or the mocked system
-          expect(typeof tempPath).toBe('string');
-          expect(tempPath).toContain('test.log');
-        }
-      } finally {
-        // Restore original platform
-        if (originalPlatform) {
-          Object.defineProperty(process, 'platform', originalPlatform);
-        }
-      }
+      // Should always match what os.tmpdir() + filename gives us
+      expect(tempPath).toBe(expectedPath);
+      
+      // Should contain the filename
+      expect(tempPath).toContain('test.log');
+      
+      // The important thing is we're not hardcoding '/tmp/' but using system temp
+      expect(tempPath).toBe(join(tmpdir(), 'test.log'));
     });
 
     it('should work with subdirectory paths', () => {
