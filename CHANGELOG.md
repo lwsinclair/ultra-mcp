@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.1] - 2025-08-25
+
+### Fixed
+- **Windows Compatibility Issue** - Resolves [GitHub Issue #14](https://github.com/RealMikeChong/ultra-mcp/issues/14)
+  - Fixed hardcoded `/tmp` paths causing `ENOENT: no such file or directory` errors on Windows
+  - Added cross-platform temp directory utilities using `os.tmpdir()`
+  - Fixed build script to use cross-platform shell commands (`shx`)
+  - Ultra MCP now works seamlessly on Windows, macOS, and Linux
+  
+### Added
+- **Multi-Platform CI Testing**
+  - GitHub Actions now tests on Windows, Linux, and macOS
+  - Comprehensive test coverage across all supported platforms
+  - Cross-platform compatibility verification for future releases
+
+### Technical Details
+- New `src/utils/temp-paths.ts` utilities for cross-platform temp file handling
+- Updated logging in `src/cli.ts` and `src/start-server.ts` to use system temp directory
+- Added `shx` dependency for cross-platform build commands
+- Enhanced test suite with Windows-specific compatibility tests
+
 ## [0.8.0] - 2025-08-21
 
 ### Added
