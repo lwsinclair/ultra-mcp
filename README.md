@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/realmikechong-ultra-mcp-badge.png)](https://mseep.ai/app/realmikechong-ultra-mcp)
+
 # Ultra MCP
 
 > **All Models. One Interface. Zero Friction.**
